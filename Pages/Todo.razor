@@ -1,0 +1,45 @@
+﻿//Routing
+@page "/todo"
+
+<h3>Todo (@todos.Count(Todo=>!Todo.IsDone))</h3>
+
+
+@*Unordered lust markup + foreach to render each todo item as a list og items*@
+<ul>
+    @foreach (var todo in todos)
+    {
+       
+        <li>
+            <input type="checkbox" @bind="todo.IsDone" />
+            <input @bind="todo.Title" />
+        </li>
+       
+    }
+</ul>
+
+@*UI element for at adde todo items til listen*@
+<input placeholder="Something todo" @bind="newTodo"/>
+<button @onclick="AddTodo">Add To Do </button>
+
+@code {
+
+    //maintain the state of the todo list
+    private IList<TodoItem> todos = new List<TodoItem>();
+
+    //To get todo input title: 
+    private string newTodo;
+
+
+    //Event for todo button
+    //Clear value: newTodo is set to an emty string
+    private void AddTodo()
+    {
+        if(!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem { Title = newTodo });
+            newTodo = string.Empty;
+        }
+    }
+
+
+}
